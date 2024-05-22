@@ -9,6 +9,8 @@ env:
   ECR_REGISTRY:  211125544605.dkr.ecr.us-east-1.amazonaws.com
   ECR_REPOSITORY: python-poc
   AWS_REGION: us-east-1
+  CLUSTER_NAME: democluster-lilly
+  SERVICE_NAME: python-svc
 
 jobs:
   build:
@@ -24,6 +26,7 @@ jobs:
           python-version: 3.x
 
       - name: Build Docker image
+        id: build-image
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA
@@ -43,3 +46,17 @@ jobs:
         run: |
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA
+
+      # - name: Register task definition
+      #   run: |
+      #     aws ecs register-task-definition --cli-input-json file://task-definition.json
+      
+      - name: Deploy to Fargate
+        id: deploy-fargate
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          service: ${{ env.SERVICE_NAME }}
+          cluster: ${{ env.CLUSTER_NAME }}
+          force-new-deployment: true
+          
