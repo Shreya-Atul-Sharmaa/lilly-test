@@ -1,0 +1,26 @@
+{
+  "family": "my-task-definition",
+  "networkMode": "awsvpc",
+  "executionRoleArn": "arn:aws:iam::211125544605:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "python-poc",
+      "image": "211125544605.dkr.ecr.us-east-1.amazonaws.com/python-poc:latest",
+      "cpu": 256,
+      "memory": 512,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512"
+}
