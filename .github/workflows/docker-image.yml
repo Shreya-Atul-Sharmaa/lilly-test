@@ -47,9 +47,9 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA
 
-      # - name: Register task definition
-      #   run: |
-      #     aws ecs register-task-definition --cli-input-json file://task-definition.json
+      - name: Register task definition
+        run: |
+          aws ecs register-task-definition --cli-input-json file://task-definition.json
       
       - name: Deploy to Fargate
         id: deploy-fargate
