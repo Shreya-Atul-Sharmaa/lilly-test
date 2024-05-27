@@ -1,20 +1,11 @@
-# Use the official Python base image
-FROM python:3.9-slim
+FROM python:3.8
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file to the container
 COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Install the Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+COPY generate_and_store_vectors.py .
 
-# Copy the application code to the container
-COPY . .
+CMD ["python", "generate_and_store_vectors.py"]
 
-# Expose port 80 for the Flask application
-EXPOSE 80
-
-# Set the entrypoint command to run the Flask application
-CMD ["python", "app.py"]
