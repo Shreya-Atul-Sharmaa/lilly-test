@@ -1,11 +1,17 @@
-FROM python:3.8
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim-buster
 
+# Set the working directory in the container to /app
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+# Add the current directory contents into the container at /app
+ADD . /app
 
-COPY generate_and_store_vectors.py .
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python", "generate_and_store_vectors.py"]
+# Make port 80 available to the world outside this container
+EXPOSE 80
 
+# Run app.py when the container launches
+CMD ["python", "app.py"]
