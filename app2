@@ -1,0 +1,20 @@
+from fastapi import FastAPI
+
+# Create FastAPI app
+app = FastAPI()
+
+@app.post("/opensearch")
+async def process_embedded_output(embedded_output: dict):
+    # Process the embedded output
+    try:
+        # Extract data from the embedded output
+        data = embedded_output['data']
+
+        # Print the data for OpenSearch
+        print("Data for OpenSearch:")
+        print(data)
+
+        return {"message": "Data processed successfully."}
+
+    except Exception as e:
+        return {"error": f"Error processing embedded output: {str(e)}"}
