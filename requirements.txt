@@ -1,5 +1,6 @@
 fastapi
-uvicorn
+asyncio
 boto3
 python-docx
 langchain
+uvicorn
